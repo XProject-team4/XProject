@@ -1,8 +1,10 @@
 package org.techtown.smartkey_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +27,16 @@ public class add_category extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        Button button1 = (Button) findViewById(R.id.exit_btn);
+        button1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), lock.class);
+                startActivity(intent);
+            }
         });
     }
 }

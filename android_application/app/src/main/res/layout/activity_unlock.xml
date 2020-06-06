@@ -20,11 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/unlock_btn"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/exit_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         app:srcCompat="@drawable/lock_icon_sample" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/exit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"

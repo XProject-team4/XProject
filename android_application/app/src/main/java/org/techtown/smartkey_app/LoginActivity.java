@@ -14,8 +14,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button imageButton = (Button) findViewById(R.id.register_btn);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        Button button = (Button) findViewById(R.id.register_btn);
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -24,8 +24,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button imageButton2 = (Button) findViewById(R.id.login_btn);
-        imageButton2.setOnClickListener(new View.OnClickListener() {
+        Button button1 = (Button) findViewById(R.id.login_btn);
+        button1.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {

@@ -1,9 +1,11 @@
 package org.techtown.smartkey_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -39,6 +41,26 @@ public class lock extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 textView.setText("");
+            }
+        });
+
+        ImageButton imageButton = (ImageButton) findViewById(R.id.plus_btn);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), add_category.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton imageButton2 = (ImageButton) findViewById(R.id.lock_btn);
+        imageButton2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), qr_check.class);
+                startActivity(intent);
             }
         });
 

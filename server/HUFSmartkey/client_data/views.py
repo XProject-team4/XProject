@@ -1,36 +1,38 @@
 from django.shortcuts import render
-
-from rest_framework import viewsets
-
-from client_data.models import client_data
-from client_data.serializers import ClientDataSerializer
-
-#youjin add code 0609_2057
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import ClientData
+from .serializers import ClientDataSerializer
+from rest_framework.parsers import JSONParser
+from django.contrib.auth import authenticate
 
-# Create your views here.
+from rest_framework.decorators import api_view
 
-# class ClientDataViewSet(viewsets.ModelViewSet):
-#     queryset = client_data.objects.all()
-#     serializer_class = ClientDataSerializer
 
-#youjin add code 0609_2057 for post
-@api_view(['GET', 'POST'])
+#@api_view(['GET', 'POST'])
+@csrf_exempt
 def client_list(request, format=None):
-    if request.method == 'GET':
-        clients = client_data.objects.all()
-        serializer = ClientDataSerializer(clients, many=True)
-        
-        return Response(serializer.data)
+    if request.method == 'GET': # 전체조회
+        query_set = ClientData.objects.all()
+        serializer = ClientDataSerializer(query_set, many=True)
+        return JsonResponse(serializer.data, safe=False)
     
-    elif request.method == 'POST':
-        print("--------------------------POST---------------------")
-        serializer = ClientDataSerializer(data = request.data)
-        
+    elif request.method == 'POST': # 회원가입
+        data = JSONParser().parse(request)
+        serializer = ClientDataSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+def login(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        client_id = data['id']
+        obj = ClientData.objects.get(identification=client_id)
+
+        if data['password'] == obj.password:
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=400)
+        # password 넘길때 암호화 필요.

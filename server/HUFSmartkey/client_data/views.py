@@ -6,7 +6,7 @@ from .serializers import ClientDataSerializer
 from rest_framework.parsers import JSONParser
 from django.contrib.auth import authenticate
 
-from rest_framework.decorators import api_view
+# from rest_framework.decorators import api_view
 
 
 #@api_view(['GET', 'POST'])

@@ -22,8 +22,8 @@ def client_list(request, format=None):
         serializer = ClientDataSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return JsonResponse({'code':'201', 'msg':'signup success'}, status=201)
+        return JsonResponse({'code':'400', 'msg':'signup fail'}, status=400)
 
 def login(request):
     if request.method == 'POST':

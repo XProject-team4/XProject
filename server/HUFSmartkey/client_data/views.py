@@ -34,7 +34,7 @@ def client_list(request, format=None):
             return JsonResponse({'code':'201', 'msg':'signup success'}, status=201) # app으로 보내는 msg
         
 @method_decorator(csrf_exempt, name='dispatch')
-def login(request, format=None): # test하기전..
+def login(request, format=None): # test완료
     if request.method == "GET": 
         return render(request, 'client_data/login.html')
 

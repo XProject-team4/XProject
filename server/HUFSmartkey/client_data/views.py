@@ -5,6 +5,8 @@ from .models import ClientData
 from .serializers import ClientDataSerializer
 from rest_framework.parsers import JSONParser
 from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 @csrf_exempt
 def client_list(request, format=None):
@@ -14,10 +16,10 @@ def client_list(request, format=None):
         return JsonResponse(serializer.data, safe=False)
     
     elif request.method == 'POST': # 회원가입_test완료
-        identification = request.POST.get('identification', '')
-        password = request.POST.get('password', '')
-        phone_number = request.POST.get('phone_number', '')
-        name = request.POST.get('name', '')
+        identification = request.POST.get("identification", "")
+        password = request.POST.get("password", "")
+        phone_number = request.POST.get("phone_number", "")
+        name = request.POST.get("name", "")
 
         print('identification = ' + identification + 'password = ' + password + 'phone_number = ' + phone_number + 'name= ' + name) # 서버쪽 터미널에 띄움
         myuser = ClientData.objects.filter(identification=identification)
@@ -31,15 +33,23 @@ def client_list(request, format=None):
             print("signUp success") # for server debugging
             return JsonResponse({'code':'201', 'msg':'signup success'}, status=201) # app으로 보내는 msg
         
+@method_decorator(csrf_exempt, name='dispatch')
+def login(request, format=None): # test하기전..
+    if request.method == "GET": 
+        return render(request, 'client_data/login.html')
 
-def login(request): # test하기전..
-    if request.method == 'POST':
-        data = JSONParser().parse(request)
-        client_id = data['id']
-        obj = ClientData.objects.get(identification=client_id)
+    elif request.method == 'POST':
+        identification = request.POST.get("identification", "")
+        password = request.POST.get("password", "")
+        myuser = ClientData.objects.filter(identification=identification, password=password)
 
-        if data['password'] == obj.password:
-            return HttpResponse(status=200)
+        print("identification = " + identification + " password" + password)
+
+        if myuser:
+            print("login success")
+            return JsonResponse({'code':'201', 'msg':'login success'}, status=201)
         else:
-            return HttpResponse(status=400)
+            print("login failed")
+            return JsonResponse({'code':'400', 'msg':'login failed'}, status=400)
+
         # password 넘길때 암호화 필요. -> 추가하기

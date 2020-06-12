@@ -1,0 +1,2 @@
+rootProject.name='smartKey_App'
+include ':app'

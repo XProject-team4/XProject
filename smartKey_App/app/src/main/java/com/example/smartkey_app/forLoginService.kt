@@ -7,9 +7,9 @@ import retrofit2.http.POST
 
 interface forLoginService {
     @FormUrlEncoded
-    @POST("/app_login/")
+    @POST("/client_data/login")
     fun requestLogin(
-        @Field("userid") userid:String,
-        @Field("userpw") userpw:String
+        @Field("identification") s_id:String,
+        @Field("password") s_pw:String
     ) : Call<forLogin>
 }

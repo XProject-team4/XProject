@@ -15,7 +15,6 @@ interface forSignupService {
         @Field("password") s_pw:String,
         @Field("name") s_name:String,
         @Field("phone_number") s_phoneNum:String
-
     ) : Call<forSignup>
 
 }

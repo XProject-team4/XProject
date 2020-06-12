@@ -36,7 +36,7 @@ class signup : AppCompatActivity() {
 //            System.out.println(s_id + s_pw + s_name + s_phoneNum)
             
             signupservice.requestSignup(s_id, s_pw, s_name, s_phoneNum).enqueue(object : Callback<forSignup> {  // 회원가입 할 때 enqueue로 비동기 쓰레딩
-                override fun onFailure(call: Call<forSignup>, t: Throwable) {
+                override fun onFailure(call: Call<forSignup>, t: Throwable) {  // 실패할 때
                     Log.e("회원가입", t.message)
                     var dialog = AlertDialog.Builder(this@signup)
                     dialog.setTitle("Error")
@@ -44,8 +44,8 @@ class signup : AppCompatActivity() {
                     dialog.show()
                 }
 
-                override fun onResponse(call: Call<forSignup>, response: Response<forSignup>) {
-                    if(response?.isSuccessful) {  // 통신이 성공적일 때?
+                override fun onResponse(call: Call<forSignup>, response: Response<forSignup>) {  // 서버에서 정상 응답이 올 때
+                    if(response?.isSuccessful) {  // 회원가입이 정상적으로 될 때
                         var forSignup = response.body()
                         Log.d("SIGNUP", "msg : " + forSignup?.msg)
                         Log.d("SIGNUP", "code : " + forSignup?.code)
@@ -55,7 +55,7 @@ class signup : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
-                    else {  // 통신에 실패할 때?
+                    else {  // 회원가입에 실패 할 때
                         Toast.makeText(getApplicationContext(), "아이디가 중복되었습니다. \n 새로운 아이디를 입력하세요.", Toast.LENGTH_LONG).show()
                     }
                 }

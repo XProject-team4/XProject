@@ -4,4 +4,5 @@ package com.example.smartkey_app
 data class forLogin(
     val code: String,
     val msg: String
+//    val allowed_area: String
 )

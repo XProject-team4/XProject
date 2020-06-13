@@ -20,7 +20,7 @@ class login : AppCompatActivity() {
 
         // retrofit 사용
         var retrofit = Retrofit.Builder()
-            .baseUrl("http://220.67.124.66:8037")
+            .baseUrl("http://192.168.0.110:8080")  //"http://220.67.124.66:8037"
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -45,26 +45,22 @@ class login : AppCompatActivity() {
                        Log.d("LOGIN", "msg : " + forLogin?.msg)
                        Log.d("LOGIN", "code : " + forLogin?.code)
                        Toast.makeText(this@login, "로그인에 성공하였습니다. \n 즐거운 하루 되세요", Toast.LENGTH_SHORT).show()
+
+                       var intent = Intent(applicationContext, lock::class.java)
+                       startActivity(intent)
                    }
                     else {
                        Toast.makeText(this@login, "로그인에 실패했습니다. \n 다시 로그인 하세요", Toast.LENGTH_LONG).show()
                    }
                 }
             })
+
+
         }
         signUp_btn.setOnClickListener {
-            val intent = Intent(applicationContext, signup::class.java)
+            var intent = Intent(applicationContext, signup::class.java)
             startActivity(intent)
         }
-
-//        val button1 =
-//            findViewById<View>(R.id.login_btn) as Button
-//        button1.setOnClickListener {
-//            val intent = Intent(applicationContext, lock::class.java)
-//            startActivity(intent)
-//        }
-
-
     }
 }
 

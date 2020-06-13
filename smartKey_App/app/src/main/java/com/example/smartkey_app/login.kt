@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -60,6 +61,18 @@ class login : AppCompatActivity() {
         signUp_btn.setOnClickListener {
             var intent = Intent(applicationContext, signup::class.java)
             startActivity(intent)
+        }
+    }
+
+    var mBackWait:Long = 0
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - mBackWait >= 2000) {
+            mBackWait = System.currentTimeMillis()
+            //Snackbar.make(VIEW, "뒤로가기 버튼을 한 번 더 누르면 종료됩니다.",Snackbar.LENGTH_LONG.show())
+        } else {
+            ActivityCompat.finishAffinity(this)
+            finish() //액티비티 종료
         }
     }
 }

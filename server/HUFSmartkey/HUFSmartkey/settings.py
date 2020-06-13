@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'client_data.apps.ClientDataConfig',
+    'small_business.apps.SmallBusinessConfig',
 ]
 '''
 REST_FRAMEWORK = {

@@ -48,4 +48,6 @@ dependencies {
     // QR Code
     implementation 'com.google.android.gms:play-services-vision:19.0.0'
 
+    // Beacon
+    implementation 'org.altbeacon:android-beacon-library:2+'
 }

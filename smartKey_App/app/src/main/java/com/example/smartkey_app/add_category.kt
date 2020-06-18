@@ -16,7 +16,7 @@ class add_category : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_category)
 
-        var textView = findViewById<View>(R.id.textView) as TextView
+        var textView = findViewById<View>(R.id.dddd) as TextView
         var spinner = findViewById<View>(R.id.spinner) as Spinner
 
         spinner.setOnItemSelectedListener(object : OnItemSelectedListener {

@@ -20,7 +20,7 @@ class signup : AppCompatActivity() {
 
         // retrofit 사용
         var retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.0.110:8080")
+            .baseUrl("http://220.67.124.145:8080")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

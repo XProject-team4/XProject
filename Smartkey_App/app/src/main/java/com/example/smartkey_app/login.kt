@@ -20,7 +20,7 @@ class login : AppCompatActivity() {
 
         // retrofit 사용
         var retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.0.110:8080")  //"http://220.67.124.66:8037"
+            .baseUrl("http://220.67.124.145:8080")  //"http://220.67.124.66:8037" / "http://192.168.0.110:8080" / "http://192.168.0.121:8081" / "http://182.222.126.40:8080"
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -44,13 +44,14 @@ class login : AppCompatActivity() {
                        var forLogin = response.body()
                        Log.d("LOGIN", "msg : " + forLogin?.msg)
                        Log.d("LOGIN", "code : " + forLogin?.code)
-                       Toast.makeText(this@login, "로그인에 성공하였습니다. \n 즐거운 하루 되세요", Toast.LENGTH_SHORT).show()
+                       Log.d("LOGIN", "allowed_area : " + forLogin?.allowed_area)
+                       Toast.makeText(this@login, "로그인에 성공하였습니다. \n 즐거운 하루 되세요.\n" + forLogin?.allowed_area, Toast.LENGTH_SHORT).show()
 
                        var intent = Intent(applicationContext, lock::class.java)
                        startActivity(intent)
                    }
                     else {
-                       Toast.makeText(this@login, "로그인에 실패했습니다. \n 다시 로그인 하세요", Toast.LENGTH_LONG).show()
+                       Toast.makeText(this@login, "로그인에 실패했습니다. \n 아이디 혹은 비밀번호를 확인하세요.", Toast.LENGTH_LONG).show()
                    }
                 }
             })

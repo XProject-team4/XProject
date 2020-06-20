@@ -65,7 +65,7 @@ def login(request, format=None): # test완료
             if(len(db) > 0):
                 return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : db}, status=201)
             else:
-                return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : ""}, status=201)
+                return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : "화장실,주차장"}, status=201)
         else:
             print("login failed")
             return JsonResponse({'code':'400', 'msg':'login failed'}, status=400)

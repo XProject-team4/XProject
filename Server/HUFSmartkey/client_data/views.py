@@ -71,3 +71,17 @@ def login(request, format=None): # test완료
             return JsonResponse({'code':'400', 'msg':'login failed'}, status=400)
 
         # password 넘길때 암호화 필요. -> 추가하기
+
+def door_open(request, format=None):
+    if request.method == 'POST':
+        result = request.POST.get("result", "")
+        uuid = request.POST.get("uuid", "")
+
+        print("<door_open> result = " + result + " uuid" + uuid)
+        if(result=='true'):
+            from ctr_servo import run_servo
+            run_servo(1) # run servo Motor
+
+            return JsonResponse({'code':'201', 'msg':'door open!'}, status=201)
+        else :
+            return JsonResponse({'code':'400', 'msg':'door not open'}, status=400)

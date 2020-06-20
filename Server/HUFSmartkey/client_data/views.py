@@ -82,8 +82,8 @@ def door_open(request, format=None):
 
         print("<door_open> result = " + result + " uuid" + uuid)
         if(result=='true'):
-            from .ctr_servo import run_servo
-            run_servo(1) # run servo Motor
+            #from .ctr_servo import run_servo
+            #run_servo(1) # run servo Motor
 
             return JsonResponse({'code':'201', 'msg':'door open!'}, status=201)
         else :

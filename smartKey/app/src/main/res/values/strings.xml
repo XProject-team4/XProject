@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BeaconDemo</string>
+    <string name="submit">Submit</string>
+    <string name="hint_uuid">Input UUID</string>
+</resources>

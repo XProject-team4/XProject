@@ -7,6 +7,8 @@ from rest_framework.parsers import JSONParser
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+import time
+import sqlite3
 
 @csrf_exempt
 def client_list(request, format=None):
@@ -58,14 +60,13 @@ def login(request, format=None): # test완료
         if myuser:
             print("login success")
 
-            import sqlite3
             con = sqlite3.connect("db.sqlite3")
             cursor = con.cursor()
             db = cursor.execute("SELECT allowed_area FROM small_business_businessdata WHERE phone_number='%s' AND name='%s'" %(phone_number, name)).fetchall()[0][0]
-            if(len(db) > 0):
+            if(len(db) > 0): # 사업자일 때
                 return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : db}, status=201)
-            else:
-                return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : "화장실,주차장"}, status=201)
+            else: # guest 일 때
+                return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : "nothing:nothing,nothing:nothing"}, status=201)
         else:
             print("login failed")
             return JsonResponse({'code':'400', 'msg':'login failed'}, status=400)
@@ -73,7 +74,7 @@ def login(request, format=None): # test완료
         # password 넘길때 암호화 필요. -> 추가하기
 
 @csrf_exempt
-def door_open(request, format=None):
+def door_open(request, format=None): # 수정필요
     if request.method == "GET":
         return render(request, 'client_data/login.html')
     if request.method == 'POST':
@@ -88,3 +89,25 @@ def door_open(request, format=None):
             return JsonResponse({'code':'201', 'msg':'door open!'}, status=201)
         else :
             return JsonResponse({'code':'400', 'msg':'door not open'}, status=400)
+
+@csrf_exempt
+def first_qr_scan(request, format=None): # for guest first scan qrcode
+    if request.method == 'POST':
+        store = request.POST.get("store", "")
+        allowed_area = request.get("allowed_area", "")
+
+        print("from app) store: " + store + ", allowed_area: " + allowed_area)
+
+        start_time = str(round(time.time()))
+        print("start time is : " + start_time)
+
+        con = sqlite3.connect("db.sqlite3")
+        cursor = con.cursor()
+        db = cursor.execute("INSERT INTO small_business_businessdata (store, allowed_area, start_time) VALUES ('%s', '%s', '%s')" %(store, allowed_area, start_time))
+        id = cursor.execute("SELECT id FROM small_business_businessdata WHERE start_time='%s'" %(start_time))
+        print("db insert result : " + db + ", id:" + str(id))
+
+        if (db >= 0):
+            return JsonResponse({'code':'201', 'msg': str(id)}, status=201)
+        else:
+            return JsonResponse({'code':'400', 'msg':'store into db as guest failed'}, status=400)

@@ -62,8 +62,10 @@ def login(request, format=None): # test완료
             con = sqlite3.connect("db.sqlite3")
             cursor = con.cursor()
             db = cursor.execute("SELECT allowed_area FROM small_business_businessdata WHERE phone_number='%s' AND name='%s'" %(phone_number, name)).fetchall()[0][0]
-            
-            return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : db}, status=201)
+            if(len(db) > 0):
+                return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : db}, status=201)
+            else:
+                return JsonResponse({'code':'201', 'msg':'login success', 'allowed_area' : ""}, status=201)
         else:
             print("login failed")
             return JsonResponse({'code':'400', 'msg':'login failed'}, status=400)

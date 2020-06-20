@@ -72,14 +72,17 @@ def login(request, format=None): # test완료
 
         # password 넘길때 암호화 필요. -> 추가하기
 
+@csrf_exempt
 def door_open(request, format=None):
+    if request.method == "GET":
+        return render(request, 'client_data/login.html')
     if request.method == 'POST':
         result = request.POST.get("result", "")
         uuid = request.POST.get("uuid", "")
 
         print("<door_open> result = " + result + " uuid" + uuid)
         if(result=='true'):
-            from ctr_servo import run_servo
+            from .ctr_servo import run_servo
             run_servo(1) # run servo Motor
 
             return JsonResponse({'code':'201', 'msg':'door open!'}, status=201)

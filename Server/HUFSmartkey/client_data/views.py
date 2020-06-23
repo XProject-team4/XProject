@@ -9,6 +9,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import time
 import sqlite3
+import serial 
+
+# For arduino serial port 
+arduino = serial.Serial(
+    port='/dev/ttyACM0',
+    baudrate=9600,
+)
+print('Connected Serial Port is ' + arduino.portstr)
+
 
 @csrf_exempt
 def client_list(request, format=None): # app --(identification, password, phone_number, name)--> server
@@ -84,6 +93,9 @@ def door_open(request, format=None): # app --(id, uuid)--> server
         if(id == '0'): # 사업자 -> 바로 문 열어준다.
             # from .ctr_servo import run_servo
             # run_servo(1) # run servo Motor
+            arduino.write([1])
+            data = arduino.read()
+            print(data)
 
             return JsonResponse({'code':'201', 'msg':'door open!'}, status=201)
         elif(int(id) > 0): # guest일 때 -> 현재시각과 service start 한 시간 비교
@@ -93,11 +105,15 @@ def door_open(request, format=None): # app --(id, uuid)--> server
             cursor = con.cursor()
             start_time = cursor.execute("SELECT start_time FROM small_business_businessdata WHERE id='%d'" %(int(id))).fetchall()[0][0]
             if(now - int(start_time) >= 7200): # service time 이 두시간 이상일 때
+                db = cursor.execute("DELETE FROM small_business_businessdata WHERE id='%d'" %(int(id)))
                 print("service time done")
                 return JsonResponse({'code':'400', 'msg':'service time done'}, status=400)
             else:
                 # from .ctr_servo import run_servo
                 # run_servo(1) # run servo Motor
+                arduino.write([1])
+                data = arduino.read()
+                print(data)
                 return JsonResponse({'code':'201', 'msg':'door open!'}, status=201)
         else :
             return JsonResponse({'code':'400', 'msg':'door not open'}, status=400)

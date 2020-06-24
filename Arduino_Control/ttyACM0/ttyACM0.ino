@@ -13,13 +13,16 @@ void setup() {
 	Serial.begin(9600);
 	pinMode(led, OUTPUT);
 }
-
+/*
 void servo_open(){
-	for(angle = 0; angle < 90; angle ++){
-		servo.write(angle);
+	for(angle = 0; angle < 90; angle++){
+    servo.write(angle);
 	}
+	for(angle = 90; angle > 0; angle--){
+    servo.write(angle);
+ }
 }
-
+*/
 void blk(){
 	digitalWrite(led,HIGH);
 	delay(1000);
@@ -31,7 +34,7 @@ void loop() {
 	data = Serial.read();
 	if(data==1){
 		blk();
-		servo_open();
+    blk();
 	}
 	data = 0;
 	Serial.print(data);

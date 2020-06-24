@@ -30,7 +30,7 @@ class ScannerActivity : AppCompatActivity(), BeaconConsumer {
     private val PERMISSION_REQUEST_COARSE_LOCATION = 1
     private val SCAN_PERIOD: Long = 150
     private val ENTER_AREA = 0.5
-    private val LOG_TAG = "nathan"
+    private val LOG_TAG = "distance"
     private val EXTRA_BEACON = "beacon_uuid"
     private val ALLOWED = "allowed_area"
 
@@ -140,7 +140,7 @@ class ScannerActivity : AppCompatActivity(), BeaconConsumer {
                     if (firstBeacon.distance < ENTER_AREA) {
                         //server에 request
                         var retrofit = Retrofit.Builder()
-                            .baseUrl("http://192.168.0.10:8037")
+                            .baseUrl("http://220.67.124.145:8080")
                             .addConverterFactory(GsonConverterFactory.create())
                             .build()
 
@@ -164,10 +164,15 @@ class ScannerActivity : AppCompatActivity(), BeaconConsumer {
                                     var forScan = response.body()
                                     Log.d("open", "msg : " + forScan?.msg)
                                     Log.d("open", "code : " + forScan?.code)
-                                    Toast.makeText(this@ScannerActivity, "잠금이 해제됩니다.", Toast.LENGTH_SHORT).show()
+                                    if (forScan?.msg == "true") {
+                                        Toast.makeText(this@ScannerActivity, "잠금이 해제됩니다.", Toast.LENGTH_SHORT).show()
 
-                                    var intent = Intent(applicationContext, unlock::class.java)
-                                    startActivity(intent)
+                                        var intent = Intent(applicationContext, unlock::class.java)
+                                        startActivity(intent)
+                                    }
+                                    else if (forScan?.msg == "false") {
+                                        Toast.makeText(this@ScannerActivity, "서비스 시간이 만료되었습니다. \n" + "QR코드를 재인증 하세요.", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
 //                                else {
 //                                    Toast.makeText(this@ScannerActivity, "출입 가능 구역을 확인하세요.", Toast.LENGTH_SHORT).show()

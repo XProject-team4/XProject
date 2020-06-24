@@ -125,7 +125,7 @@ class qr_check : AppCompatActivity() {
                 textScanResult.text = code.displayValue //= 치킨마루/화장실:74278bda-b644-4520-8f0c-720eaf059935,주차장:1
 
                 var retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.0.10:8037")
+                    .baseUrl("http://220.67.124.145:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 

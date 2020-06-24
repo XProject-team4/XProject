@@ -62,9 +62,12 @@ class lockActivity : AppCompatActivity() {
 
         var area1 = findViewById<TextView>(R.id.entry1)
         var area2 = findViewById<TextView>(R.id.entry2)
+//        var area3 = findViewById<TextView>(R.id.entry3)
+
         val area_arr = temp.split(",") // [화장실:11, 주차장:22]
         area1.setText(area_arr[0].split(":")[0]) //[화장실, 11]
         area2.setText(area_arr[1].split(":")[0])
+//        area3.setText(area_arr[2].split(":")[0])
     }
 }
 //    fun sendUuid(view: View) {
